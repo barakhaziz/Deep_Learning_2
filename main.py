@@ -22,12 +22,19 @@ TEST_CSV = "data/parsed_test.csv"
 CHECKPOINT_PATH = "model_checkpnt.pt"
 
 # Define image transformations
+# transform = transforms.Compose([
+#     transforms.Grayscale(),        # Convert to grayscale
+#     transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),  # Resize images
+#     transforms.ToTensor(),         # Convert to PyTorch tensor
+# ])
 transform = transforms.Compose([
-    transforms.Grayscale(),        # Convert to grayscale
-    transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),  # Resize images
-    transforms.ToTensor(),         # Convert to PyTorch tensor
+    transforms.Grayscale(),
+    transforms.RandomHorizontalFlip(),  
+    transforms.RandomRotation(10),     
+    transforms.ColorJitter(brightness=0.2),  
+    transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
+    transforms.ToTensor(),
 ])
-
 # Dataset class for loading image pairs
 class SiamesePairsDataset(Dataset):
     def __init__(self, csv_file, data_dir, transform=None):
